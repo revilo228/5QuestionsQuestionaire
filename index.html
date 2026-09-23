@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Your Written Reading | Rafi's World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF9; --surface: #FFFFFF; --surface2: #F5F5F4; --surface3: #E7E5E4;
+  --text: #1C1917; --text-dim: #44403C; --text-muted: #78716C;
+  --amber: #F59E0B; --amber-dim: #B45309;
+  --emerald: #059669; --red: #DC2626; --red-hover: #B91C1C;
+  --red-glow: rgba(220, 38, 38, 0.28);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 680px; margin: 0 auto; padding: 40px 20px 80px; }
+.logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--amber-dim); text-align: center; margin-bottom: 28px; }
+.paid { background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.3); color: var(--emerald); font-weight: 700; font-size: 14px; text-align: center; padding: 10px 16px; border-radius: 8px; margin-bottom: 28px; }
+h1 { font-family: 'Instrument Serif', serif; font-weight: 400; font-size: clamp(30px, 6vw, 42px); line-height: 1.15; text-align: center; margin-bottom: 12px; }
+h1 em { color: var(--amber-dim); }
+.intro { text-align: center; color: var(--text-dim); font-size: 16px; margin-bottom: 36px; }
+.card { background: var(--surface); border: 1px solid var(--surface3); border-radius: 14px; padding: 28px 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.card h2 { font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 18px; }
+label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+.hint { font-size: 13px; color: var(--text-muted); margin: -2px 0 8px; }
+input, textarea { width: 100%; font-family: inherit; font-size: 16px; color: var(--text); background: var(--bg); border: 1px solid var(--surface3); border-radius: 8px; padding: 12px 14px; margin-bottom: 18px; }
+input:focus, textarea:focus { outline: none; border-color: var(--amber-dim); background: var(--surface); }
+textarea { min-height: 96px; resize: vertical; }
+select { width: 100%; font-family: inherit; font-size: 16px; color: var(--text); background: var(--bg); border: 1px solid var(--surface3); border-radius: 8px; padding: 12px 14px; margin-bottom: 18px; appearance: auto; }
+select:focus { outline: none; border-color: var(--amber-dim); background: var(--surface); }
+.dob { display: grid; grid-template-columns: 0.8fr 1.4fr 1.2fr; gap: 10px; }
+@media (max-width: 560px) { .dob { grid-template-columns: 0.8fr 1.4fr; } .dob input { grid-column: 1 / -1; } }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .row { grid-template-columns: 1fr; gap: 0; } }
+.tip { background: rgba(245,158,11,0.1); border-left: 3px solid var(--amber-dim); border-radius: 0 8px 8px 0; padding: 14px 16px; font-size: 14px; color: var(--text); margin-bottom: 22px; }
+.tip strong { color: var(--text); }
+details { background: var(--surface2); border-radius: 8px; padding: 12px 16px; margin-bottom: 22px; font-size: 14px; color: var(--text-dim); }
+summary { cursor: pointer; font-weight: 700; color: var(--text); }
+details h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--amber-dim); margin: 14px 0 4px; }
+details ul { padding-left: 18px; }
+details li { margin: 3px 0; }
+.btn { display: block; width: 100%; background: var(--red); color: #fff; border: none; border-radius: 10px; padding: 18px; font-family: inherit; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; cursor: pointer; box-shadow: 0 4px 16px var(--red-glow); }
+.btn:hover { background: var(--red-hover); }
+.after { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 14px; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">&#9791; Rafi's World</div>
+  <div class="paid">&#10003; Payment received. One last step.</div>
+
+  <h1>Tell me what you want <em>answered.</em></h1>
+  <p class="intro">Fill this in and your personal written reading arrives within 48 hours. The more detail you give me, the more specific your answers will be.</p>
+
+  <form name="written-reading" method="POST" action="/thank-you/" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="written-reading">
+    <input type="hidden" name="stripe_session" id="stripe_session">
+    <p class="hidden"><label>Leave this empty: <input name="bot-field"></label></p>
+
+    <div class="card">
+      <h2>Your details</h2>
+      <label for="name">Full name</label>
+      <input id="name" name="name" type="text" required autocomplete="name">
+
+      <label for="email">Email</label>
+      <p class="hint">Use the same email you paid with. Your PDF goes here.</p>
+      <input id="email" name="email" type="email" required autocomplete="email">
+
+      <label for="dob_day">Date of birth</label>
+      <div class="dob">
+        <select id="dob_day" name="birth_day" required aria-label="Day">
+          <option value="" disabled selected>Day</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option>
+        </select>
+        <select id="dob_month" name="birth_month" required aria-label="Month">
+          <option value="" disabled selected>Month</option>
+          <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+        </select>
+        <input id="dob_year" name="birth_year" type="text" inputmode="numeric" pattern="(19|20)[0-9]{2}" maxlength="4" placeholder="Year (e.g. 1995)" required aria-label="Year">
+      </div>
+
+      <label for="tob">Time of birth</label>
+      <input id="tob" name="time_of_birth" type="text" placeholder="e.g. 14:35 or &quot;don't know&quot;">
+      <p class="hint" style="margin-top:-10px;">Time of birth makes the reading far more precise. Check your birth certificate or ask a parent. If you really don't know, write "don't know".</p>
+
+      <label for="pob">Place of birth</label>
+      <input id="pob" name="place_of_birth" type="text" required placeholder="City, Country">
+    </div>
+
+    <div class="card">
+      <h2>Your 5 questions</h2>
+      <div class="tip">
+        <strong>The more specific your question, the more specific my answer.</strong><br>
+        "Will I be successful?" gets a general answer.<br>
+        "When should I launch my business in the next 6 months?" gets exact dates.<br>
+        Tell me what's actually going on. Context helps.
+      </div>
+
+      <details>
+        <summary>Stuck? See example questions</summary>
+        <h3>Career</h3>
+        <ul>
+          <li>When is my best window to ask for a promotion or raise this year?</li>
+          <li>Should I stay in my current job or leave in the next 12 months?</li>
+          <li>What type of work is my chart actually built for?</li>
+        </ul>
+        <h3>Money</h3>
+        <ul>
+          <li>When are my strongest months for making money in 2026?</li>
+          <li>Is now the right time to start my business or side hustle?</li>
+          <li>What's the biggest pattern stopping me from keeping money?</li>
+        </ul>
+        <h3>Relationships</h3>
+        <ul>
+          <li>When is my best time to meet someone new this year?</li>
+          <li>Is my current relationship aligned with my chart?</li>
+          <li>Why do I keep attracting the same type of partner?</li>
+        </ul>
+      </details>
+
+      <label for="q1">Question 1</label>
+      <textarea id="q1" name="question_1" required></textarea>
+      <label for="q2">Question 2</label>
+      <textarea id="q2" name="question_2" required></textarea>
+      <label for="q3">Question 3</label>
+      <textarea id="q3" name="question_3" required></textarea>
+      <label for="q4">Question 4</label>
+      <textarea id="q4" name="question_4" required></textarea>
+      <label for="q5">Question 5</label>
+      <textarea id="q5" name="question_5" required></textarea>
+    </div>
+
+    <div class="card">
+      <h2>A bit of context (optional)</h2>
+      <label for="decision">What's the biggest decision on your plate right now?</label>
+      <textarea id="decision" name="biggest_decision"></textarea>
+      <label for="worth">What would make this reading worth it for you?</label>
+      <textarea id="worth" name="what_would_make_it_worth_it"></textarea>
+      <label for="found">Where did you find me?</label>
+      <input id="found" name="where_found" type="text" placeholder="Instagram, TikTok, YouTube, a friend...">
+    </div>
+
+    <button type="submit" class="btn">Send My Questions &rarr;</button>
+    <p class="after">Your reading arrives within 48 hours of submitting this form.</p>
+  </form>
+</div>
+<script>
+// Attach the Stripe checkout session ID (if present) so each form can be matched to a payment
+(function () {
+  var p = new URLSearchParams(window.location.search);
+  var s = p.get('session_id');
+  if (s) document.getElementById('stripe_session').value = s;
+})();
+</script>
+</body>
+</html>
